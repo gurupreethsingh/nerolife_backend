@@ -1,0 +1,1111 @@
+-----------------------------------------------------------------------
+topic 1: project setup 
+-----------------------------------------------------------------------
+steps : 1. create a folder and open it with vs code ,  and open a terminal 
+        2. initialize the project by typing the command. 
+        npm init 
+        this will create the package.json file in our project folder. 
+        package.json 
+
+        {
+            "name": "project_01",
+            "version": "1.0.0",
+            "description": "first rest api using mern stack and nodejs",
+            "main": "index.js",
+            "scripts": {
+            "test": "echo \"Error: no test specified\" && exit 1"
+            },
+            "author": "",
+            "license": "ISC"
+            }
+
+        3. now we will need a index.js file in order to start our application. 
+           so create a index.js file in our project folder. 
+
+        4. since we are making a rest api. we will be needing a libraray or package called as express.js
+        so from our terminal or command prompt we will install  the express package in our project by typing. 
+
+         npm i express 
+         or 
+         npm install express 
+
+         after the installation it will automatically get added in the package.json file. and we will be able to see its version number also. 
+
+         package.json file 
+
+         {
+            "name": "project_01",
+            "version": "1.0.0",
+            "description": "first rest api using mern stack and nodejs",
+            "main": "index.js",
+            "scripts": {
+            "test": "echo \"Error: no test specified\" && exit 1"
+            },
+            "author": "",
+            "license": "ISC",
+            "dependencies": {
+            "express": "^4.18.2"     // new line added.
+            }
+            }
+
+
+
+******************************************************************************************
+
+------------------------------------------------------------------------------------------
+topic 2: coding for index.js 
+------------------------------------------------------------------------------------------
+steps :  1. open the index.js file and import the express package at the top using the
+         require() function.
+         2. create an app using the express() function.
+         3. create a port number for runnning the rest api 
+         4. tell the server to listen to the given port to start the server. 
+         5. open the package.json file and define the start script , indicating that our project is going to run from this file name. 
+
+            filename - index.js 
+                  // importing the express package in our file.
+                  const express = require("express");
+
+                  // creating your app.
+                  const app = express();
+
+                  // create a port for our application.
+                  const PORT = 8000;
+
+                  // tell the server to listten to the given port number to start the server. and console the log for successful connection.
+                  app.listen(PORT, () =>
+                  console.log(`Server successfully at port number ${PORT}`)
+                  );
+
+            Filename - package.json
+
+
+            replace this line , in package.json file 
+
+            "scripts": {  "test": "echo \"Error: no test specified\" && exit 1" },
+
+            with , this code. 
+
+            "scripts": {   "start" : "node index.js"  },
+
+            Full and final code. of package.json file after the changes. 
+            {
+                  "name": "project_01",
+                  "version": "1.0.0",
+                  "description": "first rest api using mern stack and nodejs",
+                  "main": "index.js",
+                  "scripts": {
+                  "start" : "node index.js"
+                  },
+                  "author": "",
+                  "license": "ISC",
+                  "dependencies": {
+                  "express": "^4.18.2"
+                  }
+            }
+
+            So till here our boiler plate code is ready. 
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 3: create a new file task.txt in the project folder. 
+------------------------------------------------------------------------------------------
+    our task is to make a rest api which supports json data. 
+
+    GET   /users   - end point to get all the users from the database. 
+
+    GET   /users/1   - end point to get the user with id as 1 
+
+    POST  /user    - end point to add / insert a new user into the database. 
+
+    PUT/PATCH    /user/id   - end point to update the details of the user based on the id given. 
+      
+    DELETE      /user/id     - end point to delte the user from the database using his id. 
+
+    for this we will make a all_users.json file in our project folder and we will keep the records of 1000 users. in this file . 
+    for time being we will try to fetch all the data from this json file. called as all_users.json 
+
+    steps : 1. import this file at the top of the index.js file and store it in a varible. 
+                  const users = require("../PROJECT_01/all_users.json");
+
+            2 . make a function / route to get all the users from the json file. 
+                  app.get("/users", (req, res) => {
+                        return res.json(users);
+                        });
+
+            3. start the server by typing 
+            npm start at the terminal or at command line client(command prompt)
+
+            4. open any browser and copy paste the user as 
+            localhost:8000/users 
+            it should display all the users on the webbrowser. 
+
+      filename : index.js
+            // importing the express package in our file.
+            const express = require("express");
+
+            // import the json file all_users.json and store in a variable.
+            const users = require("../PROJECT_01/all_users.json");
+
+            // creating your app.
+            const app = express();
+
+            // create a port for our application.
+            const PORT = 8000;
+
+            // now make a route to show all the users from the users varaible, created at the top.
+            app.get("/users", (req, res) => {
+            return res.json(users);
+            });
+
+            // tell the server to listten to the given port number to start the server. and console the log for successful connection.
+            app.listen(PORT, () =>
+            console.log(`Server successfully at port number ${PORT}`)
+            );
+
+            output : - type the url   localhost:8000/users   in any browser. 
+            you will see all the 1000 users of the application. 
+
+
+******************************************************************************************
+
+
+
+
+------------------------------------------------------------------------------------------
+topic 4: Making our applcation for mobile access also. 
+------------------------------------------------------------------------------------------
+
+    If we are accessing the api thourgh a  mobile application software like react native or flutter. we need to make our rest api hybrid. so it can be accessed by both web and mobile apps. 
+    in order to do this we will have to attach "/api/ in front of all the routes. 
+
+    steps : 1. append "/api/ in front of all the routes you will create in index.js file.  
+          Filename - index.js
+          --------------------
+           
+            // importing the express package in our file.
+            const express = require("express");
+
+            // import the json file all_users.json and store in a variable.
+            const users = require("../PROJECT_01/all_users.json");
+
+            // creating your app.
+            const app = express();
+
+            // create a port for our application.
+            const PORT = 8000;
+
+            // now make a route to show all the users from the users varaible, created at the top.
+            app.get("/api/users", (req, res) => {
+            return res.json(users);
+            });
+
+            // tell the server to listten to the given port number to start the server. and console the log for successful connection.
+            app.listen(PORT, () =>
+            console.log(`Server successfully at port number ${PORT}`)
+            );
+ 
+
+            output : this time go to the browser and type the url as 
+            localhost:8000/api/users 
+            it will display all the users 
+
+            only typing   localhost:8000/users will show error. 
+
+
+            This is the code for mobile applications. 
+            if we want to access the same data from this api as html data then we will return the html code from the api. by making another route. to fetch all the users. 
+
+            Filename - index.js 
+            -------------------
+
+            // importing the express package in our file.
+            const express = require("express");
+
+            // import the json file all_users.json and store in a variable.
+            const users = require("../PROJECT_01/all_users.json");
+
+            // creating your app.
+            const app = express();
+
+            // create a port for our application.
+            const PORT = 8000;
+
+            // now make a route to show all the users from the users varaible, created at the top.
+            app.get("/api/users", (req, res) => {
+            return res.json(users);
+            });
+
+            // now to make a route for web applications. /users , for this it will show as an html document.
+            app.get("/users", (req, res) => {
+            const html = `
+                  <ul>
+                  ${users
+                  .map((eachuser) => {
+                  return `<li>${eachuser.first_name}</li>`;
+                  })
+                  .join("")}
+                  </ul>`;
+            res.send(html);
+            });
+
+            // tell the server to listten to the given port number to start the server. and console the log for successful connection.
+            app.listen(PORT, () =>
+            console.log(`Server successfully at port number ${PORT}`)
+            );
+
+            now go the browser and type the url as . 
+            localhost:8000/users 
+            you should be able to see all the code as an html document. you can check this in your console window of the browser. 
+
+******************************************************************************************
+
+------------------------------------------------------------------------------------------
+topic 5: Making dynamic path varaible.
+         Creating a function to fetch the user based on id. 
+------------------------------------------------------------------------------------------
+Steps : 1. create a new route in index.js file. 
+            dynamic path parameter should be written with a colon symbol infornt of them. 
+            :id -  is the varaible 
+            colon symbol indicates that id can be anything.
+
+      Filename - index.js 
+      -------------------
+
+            // now make a route to show all the users from the users varaible, created at the top.
+            app.get("/api/users/:id", (req, res) => {
+            // first get the id entered by the user. (Notes the id entered will be in string we have to convert it into a number )
+            const id = Number(req.params.id);
+            // now find the id from the users database(json)
+            const fetched_user = users.find((user) => user.id === id);
+            // finally return the fetched_user
+            return res.json(fetched_user);
+            });
+      
+      output : - start the server ones again. in cmd. give the url (http://localhost:8000/api/users/6)
+       in a browser with an id. to fetch the user by his id. 
+
+       {"id":6,"first_name":"Blakeley","last_name":"Dunbavin","email":"bdunbavin5@friendfeed.com","gender":"Female","job_title":"Account Representative II"}
+
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 6: Making post, patch , delete functions or routes in index.js file. 
+------------------------------------------------------------------------------------------
+
+      Filename - index.js
+            // importing the express package in our file.
+            const express = require("express");
+
+            // import the json file all_users.json and store in a variable.
+            const users = require("../PROJECT_01/all_users.json");
+
+            // creating your app.
+            const app = express();
+
+            // create a port for our application.
+            const PORT = 8000;
+
+            // now to make a route for web applications. /users , for this it will show as an html document.
+            app.get("/users", (req, res) => {
+            const html = `
+                  <ul>
+                  ${users
+                  .map((eachuser) => {
+                  return `<li>${eachuser.first_name}</li>`;
+                  })
+                  .join("")}
+                  </ul>`;
+            res.send(html);
+            });
+
+            // REST API POINTS/ ROUTES
+
+            // now make a route to show all the users from the users varaible, created at the top.
+            app.get("/api/users/:id", (req, res) => {
+            // first get the id entered by the user. (Notes the id entered will be in string we have to convert it into a number )
+            const id = Number(req.params.id);
+            // now find the id from the users database(json)
+            const fetched_user = users.find((user) => user.id === id);
+            // finally return the fetched_user
+            return res.json(fetched_user);
+            });
+
+            // function to add new user into the database. using post() function.
+            app.post("/api/users", (req, res) => {
+            // creating new user.
+            return res.json({ status: "pending creation of user." });
+            });
+
+            // function to update the user using the id. using patch() or put() function.
+            app.patch("/api/user/:id", () => {
+            // todo : updating the user information based on id.
+            return res.jsson({ status: "pending update" });
+            });
+
+            // function or route to delete user based on his id.
+            app.delete("/api/user/:id", (req, res) => {
+            // todo - deleting the user based on his id.
+            return res.json({ status: "Deleting user successful" });
+            });
+
+            // tell the server to listten to the given port number to start the server. and console the log for successful connection.
+            app.listen(PORT, () =>
+            console.log(`Server successfully at port number ${PORT}`)
+            );
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 7: combining all the 3 routes , update, delete and get by id. 
+------------------------------------------------------------------------------------------
+      filename - index.js 
+
+            // importing the express package in our file.
+            const express = require("express");
+
+            // import the json file all_users.json and store in a variable.
+            const users = require("../PROJECT_01/all_users.json");
+
+            // creating your app.
+            const app = express();
+
+            // create a port for our application.
+            const PORT = 8000;
+
+            // now to make a route for web applications. /users , for this it will show as an html document.
+            app.get("/users", (req, res) => {
+            const html = `
+                  <ul>
+                  ${users
+                  .map((eachuser) => {
+                  return `<li>${eachuser.first_name}</li>`;
+                  })
+                  .join("")}
+                  </ul>`;
+            res.send(html);
+            });
+
+            // REST API POINTS/ ROUTES
+
+            // function to add new user into the database. using post() function.
+            app.post("/api/users", (req, res) => {
+            // creating new user.
+            // get the entire body from the front end and store it as the body
+            const body = req.body;
+            console.log("Body fetched is. ", body);
+
+            return res.json({ status: "creation of user." });
+            });
+
+            // combining all the 3 functions with similar kind of urls. 
+            app.route("/api/users/:id")
+                  .get((req, res) => {
+                  // first get the id enterd by the user.
+                  const id_enteredByUser = Number(req.params.id);
+                  const fetched_user = users.find((user) => user.id === id_enteredByUser);
+                  // return the fetch user from the database.
+                  return res.json(fetched_user);
+                  })
+                  .put((req, res) => {
+                  return res.json({ status: "updating person using his id." });
+                  })
+                  .delete((req, res) => {
+                  // deleting user by his id.
+                  return res.json({ status: "Deleting using by his id. " });
+                  });
+
+                  // tell the server to listten to the given port number to start the server. and console the log for successful connection.
+                  app.listen(PORT, () =>
+                  console.log(`Server successfully at port number ${PORT}`)
+                  );
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 8: making the post request using the express middleware at the top of the index.js file. 
+------------------------------------------------------------------------------------------
+     steps :  1. import the express and pass the urlencoded({extended : false}) object iside it. 
+              2. This middle ware will take the javascript object and put it inside the request.body,
+              3. now we will add this body to the json file or database  
+              4. in order to write the whole code in to the json file , we need the fs (file system ) package , imported at the top of the file . 
+
+              const fs = require("fs");
+              5. then write into the all_users.json file, by using the 
+              writeFile("location and name of the file", converting it into json's stringify() function. )
+
+              fs.writeFile("./all_users.json", JSON.stringify(users));
+
+      Filename :- index.js
+            // importing the express package in our file.
+            const express = require("express");
+
+            // import the json file all_users.json and store in a variable.
+            const users = require("../PROJECT_01/all_users.json");
+
+            // import fs package.
+            const fs = require("fs");
+
+            // creating your app.
+            const app = express();
+
+            // create a port for our application.
+            const PORT = 8000;
+
+            // this is to parse the entire body of the json, while taking from the front end.form
+            app.use(express.urlencoded({ extended: false }));
+
+            // now to make a route for web applications. /users , for this it will show as an html document.
+            app.get("/users", (req, res) => {
+            const html = `
+                  <ul>
+                  ${users
+                  .map((eachuser) => {
+                  return `<li>${eachuser.first_name}</li>`;
+                  })
+                  .join("")}
+                  </ul>`;
+            res.send(html);
+            });
+
+            // REST API POINTS/ ROUTES
+
+            // now make a route to show all the users from the users varaible, created at the top.
+            app.get("/api/users", (req, res) => {
+            return res.json(users);
+            });
+
+            // function to add new user into the database. using post() function.
+            app.post("/api/users", (req, res) => {
+            // creating new user.
+            // get the entire body from the front end and store it as the body
+            const body = req.body;
+            // push the new body into the users
+
+            // push the users till the last id.
+
+            users.push({ ...body, id: users.length + 1 }); // in order to push the body into the file import the fs module and by using the fileWrite() function we will write into the json file.
+            fs.writeFile("./all_users.json", JSON.stringify(users), (err, data) => {
+            return res.json({
+                  status: "successfully created the user",
+                  id: `creation of user with id ${users.length}`,
+            });
+            });
+            });
+
+            // combining all the 3 similar kind of routes.
+            app
+            .route("/api/users/:id")
+            .get((req, res) => {
+            // first get the id enterd by the user.
+            const id_enteredByUser = Number(req.params.id);
+            const fetched_user = users.find((user) => user.id === id_enteredByUser);
+            // return the fetch user from the database.
+            return res.json(fetched_user);
+            })
+            .put((req, res) => {
+            return res.json({ status: "updating person using his id." });
+            })
+            .delete((req, res) => {
+            // deleting user by his id.
+            return res.json({ status: "Deleting using by his id. " });
+            });
+
+            // tell the server to listten to the given port number to start the server. and console the log for successful connection.
+            app.listen(PORT, () =>
+            console.log(`Server successfully at port number ${PORT}`)
+            );
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 9: Understanding express middle ware 
+------------------------------------------------------------------------------------------
+
+middleware functions can perform the following tasks. 
+      1. execute any code. 
+      2. make changes to the request and the response object. 
+      3. end the request-response cycle. 
+      4. call the next middleware function in the stack. 
+
+how to make the middle wares. 
+      1. by using the use() function and passing the middleware we want to use inside the use() function.
+      2. this parameter is usually a handler , (a call back fuction) 
+      3. this call back function will have a req, res and next paramters. 
+      req - request you are getting from the front end of client
+      res - response you want to return 
+      next -  is the refernce to the next middleware we are suppose to run. 
+
+Syntax for middleware:- 
+
+      app.use((req, res, next) =>{
+            console.log("hello from middleware");
+            // but if we write only till here , it has not ended the request nor it has called the next middle ware. so we need to end it after this line. 
+            res.json({mes: "hello from middleware1 " });
+            // so we have ended the middleware operation here itself by sending the json object. as the response.
+
+            // but this code will not go to the next function or route , so we will call the next() function, in order to go to the next route , 
+            Note : when we are using the next() function dont send the res.json() as the response. you call  the next() function in place of res.next() function. 
+      ));
+
+
+      app.use(()=>{
+            console.log("hello from middleware");
+            res.json({status : "hello from middle ware."});
+      })
+
+      // now to move to the next  middle ware. 
+
+      app.use(()=>{
+            console.log("hello from middleware");
+            next();
+      })
+
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 10: Setting up headers. 
+------------------------------------------------------------------------------------------
+
+HTTP headers : are an important part of the API request as they represent the meta-data associated with the api request and response. 
+
+Headers carry information for the request and response body. 
+
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 11: http response status code. 
+------------------------------------------------------------------------------------------
+
+      1. information responses (100 - 199)
+      2. successful response ( 200 - 299)
+      3. redirection message ( 300 - 399)
+      4. client error response ( 400 - 499)
+      5. server error responses( 500 - 599)
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 12: automatically staring the server, instad of manually starting every time we make a change in any of the code. 
+------------------------------------------------------------------------------------------
+
+      1. install a package called as nodemon 
+      2. nodemon will start the server automatically after making the changes in the code. 
+      3. now go and change the code in package.json file. 
+      4. In package.json fiie, 
+      in the scripts object. 
+      instead of node index.js , change it to . 
+      nodemon index.js 
+
+      Filename : package.json 
+      {
+            "name": "project_01",
+            "version": "1.0.0",
+            "description": "first rest api using mern stack and nodejs",
+            "main": "index.js",
+            "scripts": {
+            "start": "nodemon index.js"
+            },
+            "author": "",
+            "license": "ISC",
+            "dependencies": {
+            "express": "^4.18.2",
+            "fs": "^0.0.1-security",
+            "nodemon": "^3.0.2"
+            }
+      }
+
+      now when we start the server back again by using npm start. 
+      From now on nodemon will be starting the server. and watching for any changes in the code. 
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 13:  setting the status code. based on the client information given. 
+------------------------------------------------------------------------------------------
+
+      index.js
+            // function to add new user into the database. using post() function.
+                  app.post("/api/users", (req, res) => {
+                  // creating new user.
+                  // get the entire body from the front end and store it as the body
+                  const body = req.body;
+
+                  // check if the first_name, last_name, email, job  is missing. then we can set the header and response codes as we like.
+                  if (
+                  !body ||
+                  !body.first_name ||
+                  !body.last_name ||
+                  !body.email ||
+                  !body.gender ||
+                  !body.job_title
+                  ) {
+                  // we will set the reponse code to 400
+                  return res.status(400).json({ Warning: "All fields are required. " });
+                  }
+                  // push the users till the last id.
+                  users.push({ ...body, id: users.length + 1 }); // in order to push the body into the file import the fs module and by using the fileWrite() function we will write into the json file.
+                  fs.writeFile("./all_users.json", JSON.stringify(users), (err, data) => {
+                  return res.json({
+                        status: "successfully created the user",
+                        id: `creation of user with id ${users.length}`,
+                  });
+                  });
+            });
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 14:  setting up mongodb Database. 
+------------------------------------------------------------------------------------------
+      1. no-sql document based database. 
+      2. strong support for aggragation pipes 
+      3. works on BSON format
+      4. best for Node Application.
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 15:  Connecting to mongodb using nodejs.  
+------------------------------------------------------------------------------------------
+
+1. make sure mongo shell is running. 
+2. install a package called as mongoose
+npm install mongoose
+3. import mongoose at the top of the index.js file. 
+const mongoose = require("mongoose")
+
+4. how mongoose works or how mongo db works. 
+
+   1. Schema - we have to define a schema structure. 
+   first_name , last_name , email, gender, job_title is our structure. 
+
+   we will create this in the index.js file. using the monggose.Schema() constructor. 
+
+   const  userSchema = new mongoose.Schema(
+      {
+            first_name :{ type : String , required  : true, }, 
+            last_name :{ type : String  }, 
+            email :{ type : String , required  : true,  unique : true}, 
+            gender :{ type : String , required  : true, }, 
+            job_title :{ type : String , required  : true, }, 
+      }
+   )
+   This is how you have to define the schema. 
+
+   2. Each schema will have a Model file for each of our entitites.
+   how to make model of the Schema. 
+
+    const User = mongoose.model("user" , userSchema);
+    // give the name in capital  , making it as a class. 
+    // now using this User class , we will interact with our schema and mongo db database. 
+
+
+    // import mongoose database.
+            const mongoose = require("mongoose");
+
+            // connect to mongodb database.
+            mongoose
+            .connect("mongodb://127.0.0.1:27017/ecoders_app_1")
+            .then(() => console.log("Connection to mongodb successful."))
+            .catch((err) => console.log("Mongo db connection error"));
+
+            //Schema
+            const userSchema = new mongoose.Schema({});
+
+            // making the model for our user.
+            const User = mongoose.model("user", userSchema);
+
+            start the server and you should see the following message in the command prompt 
+
+            output: 
+            D:\all_mern_apps\piyush_gerg_mern\PROJECT_01>npm start
+
+            > project_01@1.0.0 start
+            > nodemon index.js
+
+            [nodemon] 3.0.2
+            [nodemon] to restart at any time, enter `rs`
+            [nodemon] watching path(s): *.*
+            [nodemon] watching extensions: js,mjs,cjs,json
+            [nodemon] starting `node index.js`
+            Server successfully at port number 8000
+            Connection to mongodb successful.
+
+
+            this will also create a new database in the mongo db. called as ecoders_app_1 
+            you can check from the mongosh terminal 
+
+// this will also create the users collection inside the ecoders_app_1 database. 
+      ecoders_app_1> show collections
+      users
+      ecoders_app_1>
+
+
+   3. using this model we do the CRUD operations. 
+   now we will use the User object / class to do the crud operations in mongo database. 
+
+   4. we will make the new user from the post() route, and push it to mongo db database. 
+   but inorder to do this we will have to make the function as async function. 
+
+   app.post("/api/users", async (req, res) => {
+  // creating new user.
+  // get the entire body from the front end and store it as the body
+  const body = req.body;
+
+  // check if the first_name, last_name, email, job  is missing. then we can set the header and response codes as we like.
+  if (
+    !body ||
+    !body.first_name ||
+    !body.last_name ||
+    !body.email ||
+    !body.gender ||
+    !body.job_title
+  ) {
+    // we will set the reponse code to 400
+    return res.status(400).json({ Warning: "All fields are required. " });
+  }
+  // now we will push the code into the mongodb database into the users collection.
+
+  const result = await User.create({
+    first_name: body.first_name,
+    last_name: body.last_name,
+    email: body.email,
+    gender: body.gender,
+    job_title: body.job_title,
+  });
+
+  //  we will consolel the result as well .
+  console.log("Result is ", result);
+
+  // so return the status code as 201 , so as to indicate user has been created.
+  return res.status(201).json({ Message: "User successfully created." });
+});
+
+      
+
+start the server , and from post man insert a new user, and then go and check in the mongodb database if the user is inserted or not. 
+
+      output : 
+            ecoders_app_1> show collections
+            users
+            ecoders_app_1> db.users.find()
+            [
+            {
+            _id: ObjectId("6589f5a43c65cd8c9801361e"),
+            first_name: 'Gurupreeth',
+            last_name: 'Singh',
+            email: 'gurupreeth@gmailcom',
+            gender: 'male',
+            job_title: 'vp',
+            __v: 0
+            }
+            ]
+            ecoders_app_1>
+
+
+
+
+Full code. index.js 
+
+// importing the express package in our file.
+const express = require("express");
+
+// import the json file all_users.json and store in a variable.
+const users = require("../PROJECT_01/all_users.json");
+
+// import fs package.
+const fs = require("fs");
+
+// import mongoose database.
+const mongoose = require("mongoose");
+
+// creating your app.
+const app = express();
+
+// create a port for our application.
+const PORT = 8000;
+
+// connect to mongodb database.
+mongoose
+  .connect("mongodb://127.0.0.1:27017/ecoders_app_1")
+  .then(() => console.log("Connection to mongodb successful."))
+  .catch((err) => console.log("Mongo db connection error"));
+
+//Schema
+const userSchema = new mongoose.Schema(
+  {
+    first_name: { type: String, required: true },
+    last_name: { type: String },
+    email: { type: String, required: true, unique: true },
+    gender: { type: String, required: true },
+    job_title: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+// making the model for our user.
+const User = mongoose.model("user", userSchema);
+
+// this is to parse the entire body of the json, while taking from the front end.form
+app.use(express.urlencoded({ extended: false }));
+
+// now to make a route for web applications. /users , for this it will show as an html document.
+app.get("/users", (req, res) => {
+  const html = `
+      <ul>
+      ${users
+        .map((eachuser) => {
+          return `<li>${eachuser.first_name}</li>`;
+        })
+        .join("")}
+      </ul>`;
+  res.send(html);
+});
+
+// REST API POINTS/ ROUTES
+
+// now make a route to show all the users from the users varaible, created at the top.
+app.get("/api/users", (req, res) => {
+  // setting up the header.
+  res.setHeader("X-Myname", "Gurupreeth Singh");
+  return res.json(users);
+});
+
+// function to add new user into the database. using post() function.
+app.post("/api/users", async (req, res) => {
+  // creating new user.
+  // get the entire body from the front end and store it as the body
+  const body = req.body;
+
+  // check if the first_name, last_name, email, job  is missing. then we can set the header and response codes as we like.
+  if (
+    !body ||
+    !body.first_name ||
+    !body.last_name ||
+    !body.email ||
+    !body.gender ||
+    !body.job_title
+  ) {
+    // we will set the reponse code to 400
+    return res.status(400).json({ Warning: "All fields are required. " });
+  }
+  // now we will push the code into the mongodb database into the users collection.
+
+  const result = await User.create({
+    first_name: body.first_name,
+    last_name: body.last_name,
+    email: body.email,
+    gender: body.gender,
+    job_title: body.job_title,
+  });
+
+  //  we will consolel the result as well .
+  console.log("Result is ", result);
+
+  // so return the status code as 201 , so as to indicate user has been created.
+  return res.status(201).json({ Message: "User successfully created." });
+});
+
+// combining all the 3 similar kind of routes.
+app
+  .route("/api/users/:id")
+  .get((req, res) => {
+    // first get the id enterd by the user.
+    const id_enteredByUser = Number(req.params.id);
+    const fetched_user = users.find((user) => user.id === id_enteredByUser);
+    // if the user if not found by the id.
+    if (!fetched_user) {
+      return res.status(400).json({ error: "User not found." });
+    }
+    // return the fetch user from the database.
+    return res.json(fetched_user);
+  })
+  .put((req, res) => {
+    return res.json({ status: "updating person using his id." });
+  })
+  .delete((req, res) => {
+    // deleting user by his id.
+    return res.json({ status: "Deleting using by his id. " });
+  });
+
+// tell the server to listten to the given port number to start the server. and console the log for successful connection.
+app.listen(PORT, () =>
+  console.log(`Server successfully at port number ${PORT}`)
+);
+
+
+
+// we can also add a timestamps when a user gets created. 
+const userSchema = new mongoose.Schema(
+  {
+    first_name: { type: String, required: true },
+    last_name: { type: String },
+    email: { type: String, required: true, unique: true },
+    gender: { type: String, required: true },
+    job_title: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+
+
+start the server and add a new user from the postman.
+
+
+now you will see the 
+createAt and updateAt parameter added to mongo db, 
+
+ecoders_app_1> db.users.find()
+[
+  {
+    _id: ObjectId("6589f5a43c65cd8c9801361e"),
+    first_name: 'Gurupreeth',
+    last_name: 'Singh',
+    email: 'gurupreeth@gmailcom',
+    gender: 'male',
+    job_title: 'vp',
+    __v: 0
+  },
+  {
+    _id: ObjectId("6589f7ee16b12389a76b1520"),
+    first_name: 'Angad',
+    last_name: 'Singh',
+    email: 'angad@gmailcom',
+    gender: 'male',
+    job_title: 'vp',
+    createdAt: ISODate("2023-12-25T21:45:18.572Z"),
+    updatedAt: ISODate("2023-12-25T21:45:18.572Z"),
+    __v: 0
+  }
+]
+
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 16:  Making routes to get all the users from the mongodb database.  
+------------------------------------------------------------------------------------------
+
+      app.get("/users", async (req, res) => {
+      // fetching all the user from the mongodb database.
+      const allDbUsers = await User.find({});
+
+      const html = `
+            <ul>
+            ${allDbUsers
+            .map((eachuser) => {
+            return `<li>${eachuser.first_name} - ${eachuser.last_name} - ${eachuser.email} - ${eachuser.gender} - ${eachuser.job_title}</li>`;
+            })
+            .join("")}
+            </ul>`;
+      res.send(html);
+      });
+
+      http://localhost:8000/users
+
+      output 
+      Gurupreeth - Singh - gurupreeth@gmailcom - male - vp
+      Angad - Singh - angad@gmailcom - male - vp
+
+
+
+      // fetching the user by there id. 
+      app.route("/api/users/:id")
+      .get(async (req, res) => {
+      // first get the id enterd by the user.
+      const fetched_user = await User.findById(req.params.id);
+      // if the user if not found by the id.
+      if (!fetched_user) {
+            return res.status(400).json({ error: "User not found." });
+      }
+      // return the fetch user from the database.
+      return res.json(fetched_user);
+      })
+
+
+******************************************************************************************
+
+
+------------------------------------------------------------------------------------------
+topic 17:  Making the update function  
+------------------------------------------------------------------------------------------
+
+  .patch(async (req, res) => {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        req.body, // Use req.body to get the updated values from Postman or frontend
+        { new: true, runValidators: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({ error: "User not found." });
+      }
+
+      return res.json({ status: "User updated successfully.", updatedUser });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error", details: error.message });
+    }
+  })
+
+
+
+
+
+------------------------------------------------------------------------------------------
+topic 17:  Making the update function  
+------------------------------------------------------------------------------------------
+
+
+    .delete(async (req, res) => {
+    try {
+      const deletedUser = await User.findByIdAndDelete(req.params.id);
+
+      if (!deletedUser) {
+        return res.status(404).json({ error: "User not found." });
+      }
+
+      const deletionTime = new Date();
+
+      // You can perform additional operations or logging related to the deletion here.
+      console.log(deletionTime);
+
+      return res.json({
+        status: "User deleted successfully.",
+        deletedUser,
+        deletionTime,
+      });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error", details: error.message });
+    }
+  });
